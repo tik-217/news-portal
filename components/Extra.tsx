@@ -1,6 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
+
+// api
+import { dataArticles, dataCategories } from "../components/services/apiDB";
+
+// types
+import { ArticlesElement, CategoriesElement } from "../types";
 
 export default function Extra() {
+  const articles: ArticlesElement[] = dataArticles().data;
+  const categories = dataCategories().data;
+
   return (
     <section className="s-extra">
       <div className="row">
@@ -8,27 +18,33 @@ export default function Extra() {
           <h3>Popular Posts</h3>
 
           <div className="block-1-2 block-m-full popular__posts">
-            <article className="col-block popular__post">
-              <a href="#0" className="popular__thumb">
-                <Image
-                  height={150}
-                  width={150}
-                  src="/images/thumbs/small/tulips-150.jpg"
-                  alt=""
-                />
-              </a>
-              <h5>10 Interesting Facts About Caffeine.</h5>
-              <section className="popular__meta">
-                <span className="popular__author">
-                  <span>By</span> <a href="#0">John Doe</a>
-                </span>
-                <span className="popular__date">
-                  <span>on</span>{" "}
-                  <time dateTime="2018-06-14">Jun 14, 2018</time>
-                </span>
-              </section>
-            </article>
-            <article className="col-block popular__post">
+            {articles &&
+              articles.map((el) => {
+                return (
+                  <article key={el.id} className="col-block popular__post">
+                    <a href={`/blog/${el.id}`} className="popular__thumb">
+                      <Image
+                        height={150}
+                        width={150}
+                        src={el.main_photo}
+                        alt=""
+                      />
+                    </a>
+                    <h5>{el.title}</h5>
+                    <section className="popular__meta">
+                      <span className="popular__author">
+                        <span>By</span> {el.author}
+                      </span>
+                      <span className="popular__date">
+                        <span> on </span>
+                        <time dateTime="2018-06-14">{el.createdAt}</time>
+                      </span>
+                    </section>
+                  </article>
+                );
+              })}
+
+            {/* <article className="col-block popular__post">
               <a href="#0" className="popular__thumb">
                 <Image
                   height={150}
@@ -135,7 +151,7 @@ export default function Extra() {
                   <time dateTime="2018-06-12">Jun 12, 2018</time>
                 </span>
               </section>
-            </article>
+            </article> */}
           </div>
         </div>
 
@@ -145,24 +161,14 @@ export default function Extra() {
               <h3>Categories</h3>
 
               <ul className="linklist">
-                <li>
-                  <a href="#0">Lifestyle</a>
-                </li>
-                <li>
-                  <a href="#0">Travel</a>
-                </li>
-                <li>
-                  <a href="#0">Recipes</a>
-                </li>
-                <li>
-                  <a href="#0">Management</a>
-                </li>
-                <li>
-                  <a href="#0">Health</a>
-                </li>
-                <li>
-                  <a href="#0">Creativity</a>
-                </li>
+                {categories &&
+                  categories.map((el: CategoriesElement) => {
+                    return (
+                      <li key={el.id}>
+                        <a href={`/categories/${el.name}`}>{el.name}</a>
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
 
@@ -171,22 +177,19 @@ export default function Extra() {
 
               <ul className="linklist">
                 <li>
-                  <a href="#0">Home</a>
+                  <Link href="/">Home</Link>
                 </li>
                 <li>
-                  <a href="#0">Blog</a>
+                  <Link href="/categories">Categories</Link>
                 </li>
                 <li>
-                  <a href="#0">Styles</a>
+                  <Link href="/about">About</Link>
                 </li>
                 <li>
-                  <a href="#0">About</a>
+                  <Link href="/contacts">Contacts</Link>
                 </li>
                 <li>
-                  <a href="#0">Contact</a>
-                </li>
-                <li>
-                  <a href="#0">Privacy Policy</a>
+                  <Link href="/login">Login</Link>
                 </li>
               </ul>
             </div>

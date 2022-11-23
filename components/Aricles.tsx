@@ -1,9 +1,28 @@
 import { useRouter } from "next/router";
+
 import Image from "next/image";
+import Link from "next/link";
+
+import { ArticlesElement, CategoriesElement } from "../types";
+import { dataArticles, dataCategories } from "./services/apiDB";
+import GenerateCategoriesHTML from "./services/GenerateCategoriesHTML";
 
 export default function Articles() {
-  const asPath = useRouter().asPath;
-  const jsxElem = asPath === "/category/categories";
+  const articles = dataArticles().data;
+  const categories = dataCategories().data;
+  const categoriesArr = getCategories();
+
+  function getCategories() {
+    return (
+      categories &&
+      categories.map((el: CategoriesElement) => {
+        return el;
+      })
+    );
+  }
+
+  const rout = useRouter();
+  const jsxElem = rout.pathname.split("/")[1] === "categories";
 
   return (
     <section
@@ -25,413 +44,42 @@ export default function Articles() {
       )}
       <div className="row entries-wrap wide">
         <div className="entries">
-          <article className="col-block">
-            <div className="item-entry" data-aos="zoom-in">
-              <div className="item-entry__thumb">
-                <a
-                  href="single-standard.html"
-                  className="item-entry__thumb-link"
-                >
-                  <Image
-                    height={350}
-                    width={350}
-                    src="/images/thumbs/post/lamp-400.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
+          {articles &&
+            articles.map((el: ArticlesElement) => {
+              return (
+                <article className="col-block" key={el.id}>
+                  <div className="item-entry" data-aos="zoom-in">
+                    <div className="item-entry__thumb">
+                      <a
+                        href={`/blog/${el.id}`}
+                        className="item-entry__thumb-link"
+                      >
+                        <Image
+                          height={350}
+                          width={350}
+                          src={el.main_photo}
+                          alt=""
+                        />
+                      </a>
+                    </div>
 
-              <div className="item-entry__text">
-                <div className="item-entry__cat">
-                  <a href="category.html">Design</a>
-                </div>
+                    <div className="item-entry__text">
+                      <div className="item-entry__cat">
+                        {<GenerateCategoriesHTML category1={categoriesArr} categoryString2={el.category} />}
+                      </div>
 
-                <h1 className="item-entry__title">
-                  <a href="single-standard.html">
-                    3 Benefits of Minimalism In Interior Design.
-                  </a>
-                </h1>
+                      <h1 className="item-entry__title">
+                        <Link href={`/blog/${el.id}`}>{el.title}</Link>
+                      </h1>
 
-                <div className="item-entry__date">
-                  <a href="single-standard.html">June 15, 2018</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article className="col-block">
-            <div className="item-entry" data-aos="zoom-in">
-              <div className="item-entry__thumb">
-                <a
-                  href="single-standard.html"
-                  className="item-entry__thumb-link"
-                >
-                  <Image
-                    height={350}
-                    width={350}
-                    src="/images/thumbs/post/tulips-400.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              <div className="item-entry__text">
-                <div className="item-entry__cat">
-                  <a href="category.html">Health</a>
-                </div>
-
-                <h1 className="item-entry__title">
-                  <a href="single-standard.html">
-                    10 Interesting Facts About Caffeine.
-                  </a>
-                </h1>
-
-                <div className="item-entry__date">
-                  <a href="single-standard.html">June 14, 2018</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article className="col-block">
-            <div className="item-entry" data-aos="zoom-in">
-              <div className="item-entry__thumb">
-                <a
-                  href="single-standard.html"
-                  className="item-entry__thumb-link"
-                >
-                  <Image
-                    height={350}
-                    width={350}
-                    src="/images/thumbs/post/music-400.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              <div className="item-entry__text">
-                <div className="item-entry__cat">
-                  <a href="category.html">Health</a>
-                </div>
-
-                <h1 className="item-entry__title">
-                  <a href="single-standard.html">
-                    The Power of Music to Reduce Stress.
-                  </a>
-                </h1>
-
-                <div className="item-entry__date">
-                  <a href="single-standard.html">June 14, 2018</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article className="col-block">
-            <div className="item-entry" data-aos="zoom-in">
-              <div className="item-entry__thumb">
-                <a
-                  href="single-standard.html"
-                  className="item-entry__thumb-link"
-                >
-                  <Image
-                    height={350}
-                    width={350}
-                    src="/images/thumbs/post/watch-400.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              <div className="item-entry__text">
-                <div className="item-entry__cat">
-                  <a href="category.html">Management</a>
-                </div>
-
-                <h1 className="item-entry__title">
-                  <a href="single-standard.html">
-                    The Pomodoro Technique Really Works.
-                  </a>
-                </h1>
-
-                <div className="item-entry__date">
-                  <a href="single-standard.html">June 12, 2018</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article className="col-block">
-            <div className="item-entry" data-aos="zoom-in">
-              <div className="item-entry__thumb">
-                <a
-                  href="single-standard.html"
-                  className="item-entry__thumb-link"
-                >
-                  <Image
-                    height={350}
-                    width={350}
-                    src="/images/thumbs/post/wheel-400.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              <div className="item-entry__text">
-                <div className="item-entry__cat">
-                  <a href="category.html">Lifestyle</a>
-                </div>
-
-                <h1 className="item-entry__title">
-                  <a href="single-standard.html">
-                    Visiting Theme Parks Improves Your Health.
-                  </a>
-                </h1>
-
-                <div className="item-entry__date">
-                  <a href="single-standard.html">June 12, 2017</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article className="col-block">
-            <div className="item-entry" data-aos="zoom-in">
-              <div className="item-entry__thumb">
-                <a
-                  href="single-standard.html"
-                  className="item-entry__thumb-link"
-                >
-                  <Image
-                    height={350}
-                    width={350}
-                    src="/images/thumbs/post/tulips-400.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              <div className="item-entry__text">
-                <div className="item-entry__cat">
-                  <a href="category.html">Health</a>
-                </div>
-
-                <h1 className="item-entry__title">
-                  <a href="single-standard.html">
-                    10 Interesting Facts About Caffeine.
-                  </a>
-                </h1>
-
-                <div className="item-entry__date">
-                  <a href="single-standard.html">June 14, 2018</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article className="col-block">
-            <div className="item-entry" data-aos="zoom-in">
-              <div className="item-entry__thumb">
-                <a
-                  href="single-standard.html"
-                  className="item-entry__thumb-link"
-                >
-                  <Image
-                    height={350}
-                    width={350}
-                    src="/images/thumbs/post/music-400.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              <div className="item-entry__text">
-                <div className="item-entry__cat">
-                  <a href="category.html">Health</a>
-                </div>
-
-                <h1 className="item-entry__title">
-                  <a href="single-standard.html">
-                    The Power of Music to Reduce Stress.
-                  </a>
-                </h1>
-
-                <div className="item-entry__date">
-                  <a href="single-standard.html">June 14, 2018</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article className="col-block">
-            <div className="item-entry" data-aos="zoom-in">
-              <div className="item-entry__thumb">
-                <a
-                  href="single-standard.html"
-                  className="item-entry__thumb-link"
-                >
-                  <Image
-                    height={350}
-                    width={350}
-                    src="/images/thumbs/post/watch-400.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              <div className="item-entry__text">
-                <div className="item-entry__cat">
-                  <a href="category.html">Management</a>
-                </div>
-
-                <h1 className="item-entry__title">
-                  <a href="single-standard.html">
-                    The Pomodoro Technique Really Works.
-                  </a>
-                </h1>
-
-                <div className="item-entry__date">
-                  <a href="single-standard.html">June 12, 2018</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article className="col-block">
-            <div className="item-entry" data-aos="zoom-in">
-              <div className="item-entry__thumb">
-                <a
-                  href="single-standard.html"
-                  className="item-entry__thumb-link"
-                >
-                  <Image
-                    height={350}
-                    width={350}
-                    src="/images/thumbs/post/wheel-400.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              <div className="item-entry__text">
-                <div className="item-entry__cat">
-                  <a href="category.html">Lifestyle</a>
-                </div>
-
-                <h1 className="item-entry__title">
-                  <a href="single-standard.html">
-                    Visiting Theme Parks Improves Your Health.
-                  </a>
-                </h1>
-
-                <div className="item-entry__date">
-                  <a href="single-standard.html">June 12, 2017</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article className="col-block">
-            <div className="item-entry" data-aos="zoom-in">
-              <div className="item-entry__thumb">
-                <a
-                  href="single-standard.html"
-                  className="item-entry__thumb-link"
-                >
-                  <Image
-                    height={350}
-                    width={350}
-                    src="/images/thumbs/post/watch-400.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              <div className="item-entry__text">
-                <div className="item-entry__cat">
-                  <a href="category.html">Management</a>
-                </div>
-
-                <h1 className="item-entry__title">
-                  <a href="single-standard.html">
-                    The Pomodoro Technique Really Works.
-                  </a>
-                </h1>
-
-                <div className="item-entry__date">
-                  <a href="single-standard.html">June 12, 2018</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article className="col-block">
-            <div className="item-entry" data-aos="zoom-in">
-              <div className="item-entry__thumb">
-                <a
-                  href="single-standard.html"
-                  className="item-entry__thumb-link"
-                >
-                  <Image
-                    height={350}
-                    width={350}
-                    src="/images/thumbs/post/wheel-400.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              <div className="item-entry__text">
-                <div className="item-entry__cat">
-                  <a href="category.html">Lifestyle</a>
-                </div>
-
-                <h1 className="item-entry__title">
-                  <a href="single-standard.html">
-                    Visiting Theme Parks Improves Your Health.
-                  </a>
-                </h1>
-
-                <div className="item-entry__date">
-                  <a href="single-standard.html">June 12, 2017</a>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <article className="col-block">
-            <div className="item-entry" data-aos="zoom-in">
-              <div className="item-entry__thumb">
-                <a
-                  href="single-standard.html"
-                  className="item-entry__thumb-link"
-                >
-                  <Image
-                    height={350}
-                    width={350}
-                    src="/images/thumbs/post/wheel-400.jpg"
-                    alt=""
-                  />
-                </a>
-              </div>
-
-              <div className="item-entry__text">
-                <div className="item-entry__cat">
-                  <a href="category.html">Lifestyle</a>
-                </div>
-
-                <h1 className="item-entry__title">
-                  <a href="single-standard.html">
-                    Visiting Theme Parks Improves Your Health.
-                  </a>
-                </h1>
-
-                <div className="item-entry__date">
-                  <a href="single-standard.html">June 12, 2017</a>
-                </div>
-              </div>
-            </div>
-          </article>
+                      <div className="item-entry__date">
+                        <p>{el.createdAt}</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
         </div>
       </div>
 

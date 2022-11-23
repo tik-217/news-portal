@@ -1,12 +1,32 @@
-import { useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 // slick slider
 import Slick from "react-slick";
+
+// types
+import { ArticlesElement, CategoriesElement } from "../types";
+
+// sercices
+import { dataArticles, dataCategories } from "./services/apiDB";
 import { slickConf } from "./services/slick-config";
 
-export default function Slider() {
+// components
+import GenerateCategoriesHTML from "./services/GenerateCategoriesHTML";
 
-  useEffect(() => {});
+export default function Slider() {
+  const data = dataArticles().data;
+  const categories = dataCategories().data;
+  const categoriesArr = getCategories();
+
+  function getCategories() {
+    return (
+      categories &&
+      categories.map((el: CategoriesElement) => {
+        return el;
+      })
+    );
+  }
 
   return (
     <section className="s-featured">
@@ -14,48 +34,50 @@ export default function Slider() {
         <div className="col-full">
           <div className="featured-slider featured" data-aos="zoom-in">
             <Slick {...slickConf}>
-              <div className="featured__slide">
-                <div className="entry">
-                  <div
-                    className="entry__background"
-                    style={{
-                      ["background-image" as any]:
-                        "url('images/thumbs/featured/featured-guitarman.jpg')",
-                    }}
-                  ></div>
+              {data &&
+                data.map((el: ArticlesElement) => {
+                  return (
+                    <div className="featured__slide" key={el.id}>
+                      <div className="entry">
+                        <div className="entry__background"></div>
 
-                  <div className="entry__content">
-                    <span className="entry__category">
-                      <a href="#0">Music</a>
-                    </span>
+                        <div className="entry__content">
+                          <span className="entry__category">
+                            <Link href={`/categories/${el.category}`}>
+                              <GenerateCategoriesHTML category1={categoriesArr} categoryString2={el.category} />
+                            </Link>
+                          </span>
 
-                    <h1>
-                      <a href="#0" title="">
-                        What Your Music Preference Says About You and Your
-                        Personality.
-                      </a>
-                    </h1>
+                          <h1>
+                            <Link href={`/blog/${el.id}`} title="">
+                              {el.title}
+                            </Link>
+                          </h1>
 
-                    <div className="entry__info">
-                      <a href="#0" className="entry__profile-pic">
-                        <img
-                          className="avatar"
-                          src="images/avatars/user-05.jpg"
-                          alt=""
-                        />
-                      </a>
-                      <ul className="entry__meta">
-                        <li>
-                          <a href="#0">Jonathan Smith</a>
-                        </li>
-                        <li>June 02, 2018</li>
-                      </ul>
+                          <div className="entry__info">
+                            <a href="#0" className="entry__profile-pic">
+                              <Image
+                                height={800}
+                                width={800}
+                                className="avatar"
+                                src={el.author_image}
+                                alt=""
+                              />
+                            </a>
+                            <ul className="entry__meta">
+                              <li>
+                                  {el.author}
+                              </li>
+                              <li>{el.createdAt}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
+                  );
+                })}
 
-              <div className="featured__slide">
+              {/* <div className="featured__slide">
                 <div className="entry">
                   <div
                     className="entry__background"
@@ -136,7 +158,7 @@ export default function Slider() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </Slick>
           </div>
         </div>

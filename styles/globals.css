@@ -2669,6 +2669,7 @@ body.search-is-visible {
 }
 
 .featured__slide .entry__background {
+  background-image: url('../public/images/thumbs/featured/featured-guitarman.jpg');
   position: absolute;
   top: 0;
   left: 0;
@@ -2958,6 +2959,11 @@ body.search-is-visible {
   max-width: 1000px;
 }
 
+.row .h3-custom{
+  margin: 0 auto;
+  text-align: center;
+}
+
 .s-content--top-padding {
   padding-top: 16.2rem;
 }
@@ -3198,6 +3204,7 @@ body.search-is-visible {
 
 .s-extra .linklist a {
   color: black;
+  text-transform: capitalize;
 }
 
 .s-extra .linklist li {

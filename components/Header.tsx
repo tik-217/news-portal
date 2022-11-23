@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useRef } from "react";
+import React from "react";
 
 export default function Header() {
   const searchField = React.createRef<HTMLInputElement>();
@@ -8,7 +8,7 @@ export default function Header() {
     e.preventDefault();
     e.stopPropagation();
 
-    const body = (document
+    (document
       .querySelector("body") as HTMLBodyElement)
       .classList.add("search-is-visible");
 
@@ -87,25 +87,25 @@ export default function Header() {
             <Link href="/">Home</Link>
           </li>
           <li className="has-children">
-            <Link href="/category/categories">Categories</Link>
+            <Link href="/categories">Categories</Link>
             <ul className="sub-menu">
               <li>
-                <Link href="/category/lifestyle">Lifestyle</Link>
+                <Link href="/categories/lifestyle">Lifestyle</Link>
               </li>
               <li>
-                <Link href="/category/health">Health</Link>
+                <Link href="/categories/health">Health</Link>
               </li>
               <li>
-                <Link href="/category/family">Family</Link>
+                <Link href="/categories/family">Family</Link>
               </li>
               <li>
-                <Link href="/category/management">Managment</Link>
+                <Link href="/categories/management">Managment</Link>
               </li>
               <li>
-                <Link href="/category/travel">Travel</Link>
+                <Link href="/categories/travel">Travel</Link>
               </li>
               <li>
-                <Link href="/category/work">Work</Link>
+                <Link href="/categories/work">Work</Link>
               </li>
             </ul>
           </li>
@@ -114,6 +114,9 @@ export default function Header() {
           </li>
           <li>
             <Link href="/contacts">Contacts</Link>
+          </li>
+          <li>
+            <Link href="/login">Login</Link>
           </li>
         </ul>
 

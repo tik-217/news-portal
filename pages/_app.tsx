@@ -12,7 +12,6 @@ import Head from "next/head";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 
 export default function App({ Component, pageProps }: AppProps) {
   function loaderToggle() {

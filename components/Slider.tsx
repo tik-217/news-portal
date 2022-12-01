@@ -12,7 +12,7 @@ import { dataArticles, dataCategories } from "./services/apiDB";
 import { slickConf } from "./services/slick-config";
 
 // components
-import GenerateCategoriesHTML from "./services/GenerateCategoriesHTML";
+import GenerateCategoriesHTML from "./GenerateCategoriesHTML";
 
 export default function Slider() {
   const data = dataArticles().data;

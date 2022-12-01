@@ -11,7 +11,7 @@ import { ArticlesElement, CategoriesElement, GetElementDBArgs } from "../types";
 import { dataArticles, dataCategories } from "./services/apiDB";
 
 // components
-import GenerateCategoriesHTML from "./services/GenerateCategoriesHTML";
+import GenerateCategoriesHTML from "./GenerateCategoriesHTML";
 
 // MarkDown
 // import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";

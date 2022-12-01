@@ -27,6 +27,9 @@ Articles.init(
     author_image: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: "(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png|jpeg)"
+      }
     },
     author_title: {
       type: DataTypes.STRING,
@@ -45,7 +48,10 @@ Articles.init(
     },
     main_photo: {
       type: DataTypes.STRING,
-      // allowNull: false,
+      allowNull: false,
+      validate: {
+        notEmpty: "(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png|jpeg)"
+      }
     }
   },
   { sequelize, modelName: "articles" }

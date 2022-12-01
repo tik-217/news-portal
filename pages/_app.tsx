@@ -5,8 +5,10 @@ import "../styles/base.css";
 import "../styles/globals.css";
 import "../styles/vendor.css";
 
+import { Provider } from 'react-redux'
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import {store} from "../store/store";
 
 // AOS
 import AOS from "aos";
@@ -21,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   useEffect(() => {
-    window.addEventListener("load", loaderToggle);
+    // window.addEventListener("load", loaderToggle);
 
     AOS.init({
       offset: 200,
@@ -32,17 +34,17 @@ export default function App({ Component, pageProps }: AppProps) {
       disable: "mobile",
     });
 
-    return () => {
-      window.addEventListener("load", () => {
-        const html = document.querySelector("html") as HTMLElement;
-        html.classList.remove("ss-preload");
-        html.classList.add("no-js");
-      });
-    };
+    // return () => {
+    //   window.addEventListener("load", () => {
+    //     const html = document.querySelector("html") as HTMLElement;
+    //     html.classList.remove("ss-preload");
+    //     html.classList.add("no-js");
+    //   });
+    // };
   }, []);
 
   return (
-    <>
+    <Provider store={store}>
       <Head>
         <meta charSet="utf-8" />
         <meta name="description" content="" />
@@ -57,6 +59,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <Header />
       <Component {...pageProps} />
-    </>
+    </Provider>
   );
 }

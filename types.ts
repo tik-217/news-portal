@@ -1,19 +1,19 @@
 export interface ArticlesElement {
-  id: number,
-  title: string,
-  author: string,
-  author_title: string,
-  author_image: string,
-  category: string,
-  content: string,
-  main_photo: string,
-  createdAt: string,
-  updatedAt: string,
+  id?: number,
+  title: string | null,
+  author: string | null,
+  author_title: string | null,
+  author_image: string | null,
+  category: string | null,
+  content: string | null,
+  main_photo: string | null,
+  createdAt?: string,
+  updatedAt?: string,
 }
 
 export interface CategoriesElement {
   id: number,
-  name: number,
+  name: string,
   createdAt: string,
   updatedAt: string,
 }

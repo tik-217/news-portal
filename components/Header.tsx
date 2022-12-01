@@ -1,33 +1,97 @@
-import Link from "next/link";
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 
-export default function Header() {
+// next
+import Link from "next/link";
+import Route, { useRouter } from "next/router";
+import useSWR from "swr";
+
+// flexsearch
+import { Index } from "flexsearch";
+
+// types
+import { ArticlesElement } from "../types";
+// import Search from "../pages/search";
+import { connect } from "react-redux";
+import SEARCH_LIST from "../store/actions/actionSearchList";
+import SLCreators from "../store/actionCreators/creatorsSearchList";
+import { bindActionCreators } from "redux";
+
+const fetcher = async (url: string) =>
+  await axios.get(url).then((res) => res.data);
+
+function Header({
+  setFilteredArticles,
+}: {
+  setFilteredArticles: (searchList: ArticlesElement[]) => any;
+}) {
+  const [loadingPosts, setLoadingPosts] = useState<boolean>(false);
+  const [searchList, setSearchList] = useState<ArticlesElement[]>();
   const searchField = React.createRef<HTMLInputElement>();
+
+  const rout = useRouter();
+
+  const { data, error } = useSWR(
+    loadingPosts ? "http://localhost:3001/articles" : null,
+    fetcher
+  );
+
+  function searchLogic(e: React.KeyboardEvent<HTMLInputElement>) {
+    e.preventDefault();
+
+    const inputSearch =
+      searchField && (searchField.current as HTMLInputElement).value;
+
+    const index = new Index({ tokenize: "forward" });
+
+    data &&
+      data.forEach(({ content }: { content: string }, i: number) => {
+        index.add(i, content);
+      });
+
+    const flex = index.search(inputSearch, {
+      limit: 3,
+    });
+
+    const searchList: ArticlesElement[] = flex.map((i) => data[i]);
+
+    setSearchList(searchList);
+
+    setFilteredArticles(searchList);
+
+    Route.push({
+      pathname: "http://localhost:3000/search",
+    });
+
+    closeSearch();
+  }
 
   function searchTriger(e: React.MouseEvent<HTMLAnchorElement>) {
     e.preventDefault();
     e.stopPropagation();
 
-    (document
-      .querySelector("body") as HTMLBodyElement)
-      .classList.add("search-is-visible");
+    setLoadingPosts(true);
+
+    (document.querySelector("body") as HTMLBodyElement).classList.add(
+      "search-is-visible"
+    );
 
     setTimeout(function () {
       searchField.current?.focus();
     }, 100);
   }
 
-  function closeSearch(e: React.MouseEvent<HTMLElement>) {
-    e.stopPropagation();
+  function closeSearch(e?: React.MouseEvent<HTMLElement>) {
+    e?.stopPropagation();
 
     const body = document.querySelector("body") as HTMLBodyElement;
 
-    if (body.classList.contains('search-is-visible')) {
-        body.classList.remove('search-is-visible');
-        setTimeout(function () {
-          (document.querySelector('.search-field') as HTMLInputElement).blur();
-        }, 100);
-      }
+    if (body.classList.contains("search-is-visible")) {
+      body.classList.remove("search-is-visible");
+      setTimeout(function () {
+        (document.querySelector(".search-field") as HTMLInputElement).blur();
+      }, 100);
+    }
   }
 
   function externalClick(e: React.MouseEvent<HTMLDivElement>) {
@@ -39,16 +103,18 @@ export default function Header() {
   return (
     <header className="s-header header">
       <div className="header__logo">
-        <a className="logo" href="/">
+        <Link className="logo" href="/">
           Three Word
-        </a>
+        </Link>
       </div>
 
-      <a
+      {/* {searchList && <Search searchList={searchList} />} */}
+
+      <Link
         className="header__search-trigger"
         href="/"
         onClick={(e) => searchTriger(e)}
-      ></a>
+      ></Link>
       <div className="header__search" onClick={(e) => externalClick(e)}>
         <form
           role="search"
@@ -66,12 +132,18 @@ export default function Header() {
               title="Search for:"
               autoComplete="off"
               ref={searchField}
+              onKeyDown={(e) => e.code === "Enter" && searchLogic(e)}
             />
           </label>
           <input type="submit" className="search-submit" />
         </form>
 
-        <a href="#0" title="Close Search" className="header__overlay-close" onClick={(e) => closeSearch(e)}>
+        <a
+          href="#0"
+          title="Close Search"
+          className="header__overlay-close"
+          onClick={(e) => closeSearch(e)}
+        >
           Close
         </a>
       </div>
@@ -131,3 +203,13 @@ export default function Header() {
     </header>
   );
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setFilteredArticles: (value) => {
+      dispatch(SLCreators(value))
+    }
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Header);

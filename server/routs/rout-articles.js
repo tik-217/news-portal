@@ -14,7 +14,6 @@ router
   .route("/")
   .post(
     asyncHandler(async (req, res) => {
-      console.log(req.query, "=================================");
       await createArt(req.query);
 
       res.end();

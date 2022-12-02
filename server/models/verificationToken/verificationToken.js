@@ -5,6 +5,12 @@ class VerificationToken extends Model { }
 
 VerificationToken.init(
   {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+    },
     identifier: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -16,5 +22,7 @@ VerificationToken.init(
   },
   { sequelize, modelName: "verificationToken" },
 );
+
+sequelize.sync({ force: false, alter: true });
 
 export default VerificationToken;

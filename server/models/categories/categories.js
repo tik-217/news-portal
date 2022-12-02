@@ -18,7 +18,7 @@ Categories.init(
       }
     },
   },
-  { sequelize, modelName: "Categories" }
+  { sequelize, modelName: "categories" }
 )
 
 sequelize.sync({ force: false, alter: true });

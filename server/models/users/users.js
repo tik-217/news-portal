@@ -16,12 +16,19 @@ Users.init(
     user_id: {
       type: DataTypes.INTEGER,
       defaultValue: DataTypes.INTEGER,
-      allowNull: false,
     },
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     email_verified: DataTypes.DATE,
     image: DataTypes.STRING,
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   { sequelize, modelName: "users" },
   {
@@ -58,14 +65,12 @@ Account.init(
     session_state: DataTypes.STRING,
     oauth_token_secret: DataTypes.STRING,
     oauth_token: DataTypes.STRING,
-    created_at: {
+    createdAt: {
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
       allowNull: false,
     },
-    updated_at: {
+    updatedAt: {
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
       allowNull: false,
     },
   },
@@ -81,11 +86,19 @@ Session.init(
       allowNull: false,
     },
     expires: DataTypes.DATE,
-    sessionToken: DataTypes.STRING,
+    session_token: DataTypes.STRING,
     user_id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
   },
   { sequelize, modelName: "session" }

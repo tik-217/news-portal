@@ -1,22 +1,31 @@
 import NextAuth from "next-auth/next";
-import sequelize from "../../../server/connection";
 import EmailProvider from "next-auth/providers/email";
 import SequelizeAdapter from "@next-auth/sequelize-adapter";
+import sequelize from "../../../server/connection";
 
 export default NextAuth({
   // https://next-auth.js.org/providers/overview
   providers: [
     EmailProvider({
       server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
+        host: "smtp.mail.ru",
+        port: 465,
         auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
+          user: "tigran.gabulyan.2001@mail.ru",
+          pass: "8s97D7Fz5fW5xzxutTbM",
         },
       },
-      from: process.env.EMAIL_FROM,
+      from: "tigran.gabulyan.2001@mail.ru",
     }),
   ],
-  adapter: SequelizeAdapter(sequelize),
+  adapter: SequelizeAdapter(sequelize, {
+    synchronize: true,
+  }),
+  pages: {
+    signIn: '../../sign-in',
+    // signOut: '/auth/signout',
+    // error: '/auth/error', // Error code passed in query string as ?error=
+    // verifyRequest: '/auth/verify-request', // (used for check email message)
+    // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+  }
 });

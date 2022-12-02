@@ -10,9 +10,10 @@ import useSWR from "swr";
 import { Index } from "flexsearch";
 
 // types
-import { ArticlesElement, dispatchFilterArticles } from "../types";
+import { ArticlesElement, DispatchFilterArticles } from "../types";
 import { connect } from "react-redux";
 import { SLCreators } from "../store/actionCreators/creatorsSearchList";
+import { signOut, useSession } from "next-auth/react";
 
 const fetcher = async (url: string) =>
   await axios.get(url).then((res) => res.data);
@@ -20,11 +21,13 @@ const fetcher = async (url: string) =>
 function Header({
   setFilteredArticles,
 }: {
-    setFilteredArticles: (searchList: ArticlesElement[]) => any,
+  setFilteredArticles: (searchList: ArticlesElement[]) => void;
 }) {
   const [loadingPosts, setLoadingPosts] = useState<boolean>(false);
   const [searchList, setSearchList] = useState<ArticlesElement[]>();
   const searchField = React.createRef<HTMLInputElement>();
+
+  const { data: session, status } = useSession();
 
   const rout = useRouter();
 
@@ -32,7 +35,6 @@ function Header({
     loadingPosts ? "http://localhost:3001/articles" : null,
     fetcher
   );
-  
 
   function searchLogic(e: React.KeyboardEvent<HTMLInputElement>) {
     e.preventDefault();
@@ -51,7 +53,7 @@ function Header({
       limit: 3,
     });
 
-    const searchList: ArticlesElement[] = flex.map((i) => data[i]);
+    const searchList: ArticlesElement[] = flex.map((i: number) => data[i]);
 
     setSearchList(searchList);
 
@@ -106,13 +108,14 @@ function Header({
         </Link>
       </div>
 
-      {/* {searchList && <Search searchList={searchList} />} */}
+      <div>
+        <Link
+          className="header__search-trigger"
+          href="/"
+          onClick={(e) => searchTriger(e)}
+        ></Link>
+      </div>
 
-      <Link
-        className="header__search-trigger"
-        href="/"
-        onClick={(e) => searchTriger(e)}
-      ></Link>
       <div className="header__search" onClick={(e) => externalClick(e)}>
         <form
           role="search"
@@ -185,9 +188,23 @@ function Header({
           <li>
             <Link href="/contacts">Contacts</Link>
           </li>
-          <li>
-            <Link href="/login">Login</Link>
-          </li>
+
+          {status === "authenticated" ? (
+            <>
+              <li>
+                <Link href="/account">Account</Link>
+              </li>
+              <li>
+                <Link href="/" onClick={() => signOut()}>
+                  Sign Out
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li>
+              <Link href="/sign-in">Login</Link>
+            </li>
+          )}
         </ul>
 
         <a
@@ -202,9 +219,10 @@ function Header({
   );
 }
 
-function mapDispatchToProps(dispatch: Dispatch<dispatchFilterArticles>) {
+function mapDispatchToProps(dispatch: Dispatch<DispatchFilterArticles>) {
   return {
-    setFilteredArticles: (value: ArticlesElement[]) => dispatch(SLCreators(value)),
+    setFilteredArticles: (value: ArticlesElement[]) =>
+      dispatch(SLCreators(value)),
   };
 }
 

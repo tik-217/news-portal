@@ -7,8 +7,8 @@ import useSWR from "swr";
 // types
 import { ArticlesElement } from "../types";
 import { useRouter } from "next/router";
-import { Index } from "flexsearch";
 import Search from "../pages/search";
+import { Index } from "flexsearch";
 
 const fetcher = async (url: string) =>
   await axios.get(url).then((res) => res.data);

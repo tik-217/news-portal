@@ -1,7 +1,22 @@
 import Sequelize from 'sequelize';
 
+// const sequelize = new Sequelize(
+//   process.env.DB_USER,
+//   process.env.DB_NAME,
+//   process.env.DB_PASSWORD,
+//   {
+//     dialect: 'postgres',
+//     port: 5433,
+//     pool: {
+//       max: 10,
+//       min: 0,
+//       acquire: 30000,
+//       idle: 10000,
+//     },
+//   }
+// )
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
+  "template1",
   process.env.DB_USER,
   process.env.DB_PASSWORD,
   {

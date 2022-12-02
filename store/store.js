@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import reducerSearchList from "./reducers/reducerSearhList";
+import rootReducer from "./reducers/reducers";
 
-// const store = configureStore();
-export const store = configureStore({ reducer: reducerSearchList });
+export const store = configureStore({
+  reducer: rootReducer
+});

@@ -1,0 +1,2 @@
+export const SEARCH_LIST = 'SEARCH_LIST';
+export const CHANGE_ARTICLE = 'CHANGE_ARTICLE';

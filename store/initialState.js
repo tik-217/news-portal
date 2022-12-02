@@ -1,3 +1,2 @@
-export default {
-  filterArticles: []
-}
+export const searchListInitial = [];
+export const articleChangeInitial = {};

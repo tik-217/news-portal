@@ -17,6 +17,7 @@
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
+    "@types/react-redux": "^7.1.24",
     "aos": "^3.0.0-beta.6",
     "axios": "^1.1.3",
     "cors": "^2.8.5",

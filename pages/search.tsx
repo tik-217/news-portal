@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import ArticlesCard from "../components/ArticlesCard";
+import ArticlesCard from "../components/ArticlesCard/ArticlesCard";
 import { ArticlesElement } from "../types";
 
 function Search({
@@ -7,8 +7,6 @@ function Search({
 }: {
   searchList: ArticlesElement[];
   }) {
-  
-  console.log(searchList);
   
   return (
     <section className="s-content s-content--top-padding">
@@ -19,7 +17,7 @@ function Search({
 
 function mapStateToProps(state) {
   return {
-    searchList: state.filterArticles
+    searchList: state.filterArticles.filterArticles
   }
 }
 

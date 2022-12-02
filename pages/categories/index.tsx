@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Articles from "../../components/Aricles";
+import Articles from "../../components/Articles/Articles";
 import Extra from "../../components/Extra";
 
 export default function Home() {

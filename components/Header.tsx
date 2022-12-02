@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { Dispatch, useState } from "react";
 
 // next
 import Link from "next/link";
@@ -10,12 +10,9 @@ import useSWR from "swr";
 import { Index } from "flexsearch";
 
 // types
-import { ArticlesElement } from "../types";
-// import Search from "../pages/search";
+import { ArticlesElement, dispatchFilterArticles } from "../types";
 import { connect } from "react-redux";
-import SEARCH_LIST from "../store/actions/actionSearchList";
-import SLCreators from "../store/actionCreators/creatorsSearchList";
-import { bindActionCreators } from "redux";
+import { SLCreators } from "../store/actionCreators/creatorsSearchList";
 
 const fetcher = async (url: string) =>
   await axios.get(url).then((res) => res.data);
@@ -23,7 +20,7 @@ const fetcher = async (url: string) =>
 function Header({
   setFilteredArticles,
 }: {
-  setFilteredArticles: (searchList: ArticlesElement[]) => any;
+    setFilteredArticles: (searchList: ArticlesElement[]) => any,
 }) {
   const [loadingPosts, setLoadingPosts] = useState<boolean>(false);
   const [searchList, setSearchList] = useState<ArticlesElement[]>();
@@ -35,6 +32,7 @@ function Header({
     loadingPosts ? "http://localhost:3001/articles" : null,
     fetcher
   );
+  
 
   function searchLogic(e: React.KeyboardEvent<HTMLInputElement>) {
     e.preventDefault();
@@ -204,11 +202,9 @@ function Header({
   );
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<dispatchFilterArticles>) {
   return {
-    setFilteredArticles: (value) => {
-      dispatch(SLCreators(value))
-    }
+    setFilteredArticles: (value: ArticlesElement[]) => dispatch(SLCreators(value)),
   };
 }
 

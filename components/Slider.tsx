@@ -40,7 +40,6 @@ export default function Slider() {
                     <div className="featured__slide" key={el.id}>
                       <div className="entry">
                         <div className="entry__background"></div>
-
                         <div className="entry__content">
                           <span className="entry__category">
                             <Link href={`/categories/${el.category}`}>

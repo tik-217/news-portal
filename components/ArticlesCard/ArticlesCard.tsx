@@ -1,43 +1,36 @@
 import React, { useState } from "react";
-
-// next
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import useSWR from "swr";
-
-// types
-import { ArticlesElement, CategoriesElement } from "../types";
-
-// services
-import { dataArticles, dataCategories } from "./services/apiDB";
-
-// coomponents
-import GenerateCategoriesHTML from "./GenerateCategoriesHTML";
-
-// axios
-import axios from "axios";
-
-const deleteFetch = (url: string) => axios.delete(url).then((res) => res.data);
+import { useEffect } from "react";
+import { useSWRConfig } from "swr";
+import {
+  Image,
+  Link,
+  dataArticles,
+  dataCategories,
+  GenerateCategoriesHTML,
+  ControlsPosts,
+  ArticlesElement,
+  CategoriesElement,
+} from "./index";
 
 export default React.memo(function ArticlesCard({
   searchArticles,
+  trigerValue,
 }: {
   searchArticles?: ArticlesElement[];
+  trigerValue?: object[] | undefined;
 }) {
-  const [deleteReq, setDeleteReq] = useState<number>();
+  const { mutate } = useSWRConfig();
 
-  useSWR(
-    typeof deleteReq === "number" &&
-      `http://localhost:3001/articles/?id=${deleteReq}`,
-    deleteFetch
-  );
+  const [mutateAccount, setMutateAccount] = useState<boolean>(true);
 
   const articles = searchArticles ? searchArticles : dataArticles().data;
   const categories = dataCategories().data;
   const categoriesArr = getCategories();
 
-  const rout = useRouter();
+  useEffect(() => {
+    mutate("http://localhost:3001/articles");
+    setMutateAccount(!mutateAccount);
+  }, [trigerValue]);
 
   function getCategories() {
     return (
@@ -48,6 +41,20 @@ export default React.memo(function ArticlesCard({
     );
   }
 
+  function createDate(date: string | undefined) {
+    const dateObject = date && new Date(date);
+
+    const mounth = dateObject && dateObject.toLocaleString('en-us', { month: 'long' });
+    const dateNum = dateObject && dateObject.getDate();
+    const fullYear = dateObject && dateObject.getFullYear();
+
+    return (
+      <>
+        {mounth} {dateNum}, {fullYear}
+      </>
+    )
+  }
+
   return (
     <div className="row entries-wrap wide">
       <div className="entries">
@@ -56,16 +63,7 @@ export default React.memo(function ArticlesCard({
             return (
               <article className="col-block" key={el.id}>
                 <div className="item-entry" data-aos="zoom-in">
-                  {rout.pathname === "/account" && (
-                    <div className="update_image">
-                      <img src="/icons8-edit.svg" alt="" />
-                      <img
-                        src="/icons8-trash.svg"
-                        alt=""
-                        onClick={() => setDeleteReq(el.id)}
-                      />
-                    </div>
-                  )}
+                  <ControlsPosts el={el} />
                   <div className="item-entry__thumb">
                     <Link
                       href={`/blog/${el.id}`}
@@ -95,7 +93,7 @@ export default React.memo(function ArticlesCard({
                     </h1>
 
                     <div className="item-entry__date">
-                      <p>{el.createdAt}</p>
+                      <p>{createDate(el.createdAt)}</p>
                     </div>
                   </div>
                 </div>

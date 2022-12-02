@@ -10,7 +10,6 @@ export default React.memo(function GenerateCategoriesHTML({
   categoryString2: string | null;
   }) {
   if (categoryString2 === null) return (<></>);
-  
   const categoriesNumberSplit = categoryString2.split("");
 
   return (

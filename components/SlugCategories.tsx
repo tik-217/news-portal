@@ -43,12 +43,14 @@ export default function SlugCategories() {
                       href={`/blog/${el.id}`}
                       className="item-entry__thumb-link"
                     >
-                      <Image
-                        height={350}
-                        width={350}
-                        src={el.main_photo}
-                        alt=""
-                      />
+                      {el.main_photo && (
+                        <Image
+                          height={350}
+                          width={350}
+                          src={el.main_photo}
+                          alt=""
+                        />
+                      )}
                     </Link>
                   </div>
 

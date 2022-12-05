@@ -4290,22 +4290,26 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 
 /* contact form
  * ----------------------------------------------- */
-#cForm {
-  margin-top: 3.6rem;
-}
-
-#cForm input,
-#cForm textarea,
-#cForm select {
-  margin-bottom: 0;
-}
-
-#cForm input[type="submit"],
-#cForm .btn {
-  margin-top: 6rem;
-}
-
-/*# sourceMappingURL=main.css.map */
+ #cForm {
+   margin-top: 3.6rem;
+  }
+  
+  #cForm input,
+  #cForm textarea,
+  #cForm select {
+    margin-bottom: 0;
+  }
+  
+  #cForm input[type="submit"],
+  #cForm .btn {
+    margin-top: 6rem;
+  }
+  
+  /*# sourceMappingURL=main.css.map */
+  
+  
+/* account
+* ----------------------------------------------- */
 
 .account {
   display: flex;
@@ -4336,6 +4340,10 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
   margin-left: -35px;
 }
 
+.account_sidebar a{
+  color: inherit;
+}
+
 .account_sidebar_managment,
 .account_main {
   padding-top: 40px;
@@ -4355,7 +4363,7 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 
 .account_main_title img {
   margin-top: 6rem;
-  margin-bottom: 1.8rem;
+  margin-bottom: 50px;
   margin-left: 10px;
   cursor: pointer;
 }
@@ -4366,6 +4374,7 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 
 .account_main h2 {
   padding-left: 20px;
+  margin-bottom: 50px;
 }
 
 .account_main_element form {
@@ -4386,4 +4395,8 @@ textarea {
 .account_main_element textarea {
   padding-top: 1.8rem;
   resize: none;
+}
+
+.update_image img{
+  cursor: pointer;
 }

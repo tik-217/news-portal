@@ -10,8 +10,7 @@ function articleChange(state = articleChangeInitial, action) {
       };
     default:
       return {
-        ...state,
-        article: articleChangeInitial,
+        ...state
       };
   }
 }

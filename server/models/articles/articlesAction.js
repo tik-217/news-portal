@@ -14,8 +14,8 @@ export async function createArt(query) {
   return Articles.findAll();
 }
 
-export async function readArt() {
-  return Articles.findAll();
+export async function readArt(offset, limit) {
+  return Articles.findAll({ offset, limit });
 }
 
 export async function updateArt({ id, ...query }) {

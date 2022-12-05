@@ -1,2 +1,2 @@
-export const searchListInitial = [];
+export const searchListInitial = {};
 export const articleChangeInitial = {};

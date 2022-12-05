@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSWRConfig } from "swr";
+import { ArticlesCardProps } from "../../types";
 import {
   Image,
   Link,
@@ -13,23 +13,22 @@ import {
 } from "./index";
 
 export default React.memo(function ArticlesCard({
-  searchArticles,
+  customArticles,
   trigerValue,
-}: {
-  searchArticles?: ArticlesElement[];
-  trigerValue?: object[] | undefined;
-}) {
+}: ArticlesCardProps) {
   const { mutate } = useSWRConfig();
-
   const [mutateAccount, setMutateAccount] = useState<boolean>(true);
-
-  const articles = searchArticles ? searchArticles : dataArticles().data;
+  const allArticles = dataArticles().data;
+  
+  const articles = customArticles ? customArticles : allArticles;
   const categories = dataCategories().data;
   const categoriesArr = getCategories();
 
   useEffect(() => {
-    mutate("http://localhost:3001/articles");
-    setMutateAccount(!mutateAccount);
+    if (trigerValue && trigerValue.length) {
+      mutate("http://localhost:3001/articles");
+      setMutateAccount(!mutateAccount);
+    }
   }, [trigerValue]);
 
   function getCategories() {
@@ -44,7 +43,8 @@ export default React.memo(function ArticlesCard({
   function createDate(date: string | undefined) {
     const dateObject = date && new Date(date);
 
-    const mounth = dateObject && dateObject.toLocaleString('en-us', { month: 'long' });
+    const mounth =
+      dateObject && dateObject.toLocaleString("en-us", { month: "long" });
     const dateNum = dateObject && dateObject.getDate();
     const fullYear = dateObject && dateObject.getFullYear();
 
@@ -52,7 +52,7 @@ export default React.memo(function ArticlesCard({
       <>
         {mounth} {dateNum}, {fullYear}
       </>
-    )
+    );
   }
 
   return (
@@ -77,7 +77,6 @@ export default React.memo(function ArticlesCard({
                       />
                     </Link>
                   </div>
-
                   <div className="item-entry__text">
                     <div className="item-entry__cat">
                       {
@@ -87,11 +86,9 @@ export default React.memo(function ArticlesCard({
                         />
                       }
                     </div>
-
                     <h1 className="item-entry__title">
                       <Link href={`/blog/${el.id}`}>{el.title}</Link>
                     </h1>
-
                     <div className="item-entry__date">
                       <p>{createDate(el.createdAt)}</p>
                     </div>

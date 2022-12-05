@@ -1,11 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-import ArticlesCard from "../components/ArticlesCard/ArticlesCard";
+import ArticlesCard from "../../components/ArticlesCard/ArticlesCard";
 import useSWR from "swr";
 import axios from "axios";
-import { ArticlesElement, StateInterface } from "../types";
+import {
+  AccountArticleProps,
+  ArticlesElement,
+  StateInterface,
+  UpdateFetch,
+} from "../../types";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import AccountSidebar from "../../components/accountSidebar";
+import {dataArticles} from "../../components/services/apiDB";
 
 const articleAddFetch = (url: string, addArticleArgs: ArticlesElement) =>
   axios({
@@ -16,7 +23,7 @@ const articleAddFetch = (url: string, addArticleArgs: ArticlesElement) =>
     .then((res) => res.data)
     .catch((err) => console.log(err));
 
-const updateFetch = async (url: string, updateArticle: fetch) =>
+const updateFetch = async (url: string, updateArticle: UpdateFetch) =>
   await axios({
     method: "put",
     url,
@@ -25,23 +32,16 @@ const updateFetch = async (url: string, updateArticle: fetch) =>
     .then((res) => res.data)
     .catch((err) => console.log(err));
 
-interface accountProp {
-  dataArticle: {
-    article: ArticlesElement;
-  };
-}
-
-interface fetch {
-  [index: string]: string;
-}
-
-function Account({ dataArticle }: accountProp) {
+function AccountArticle({ article }: { article: AccountArticleProps }) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
+  const urlArticles = router.pathname.includes("articles");
+
   if (status === "unauthenticated") router.push("/");
-  
-  const article = dataArticle.article;
+
+  const articles: ArticlesElement | any =
+    Object.keys(article).length !== 0 ? article.article : article;
 
   const [addArticle, setAddArticle] = useState(false);
   const [addVisible, setAddVisible] = useState(false);
@@ -57,7 +57,7 @@ function Account({ dataArticle }: accountProp) {
   const content = useRef(null);
   const main_photo = useRef(null);
 
-  const updateArticle: fetch = {};
+  const updateArticle: UpdateFetch = {};
   const addArticleArgs = {
     title: title.current && (title.current as HTMLInputElement).value,
     author: author.current && (author.current as HTMLInputElement).value,
@@ -72,7 +72,7 @@ function Account({ dataArticle }: accountProp) {
   };
 
   // output articles
-  useSWR(addArticle && `http://localhost:3001/articles`, (url) =>
+  useSWR(addArticle && `http://localhost:3001/articles/`, (url) =>
     articleAddFetch(url, addArticleArgs)
   );
 
@@ -85,14 +85,15 @@ function Account({ dataArticle }: accountProp) {
 
   // fetch to update
   const { data } = useSWR(
-    updateVisible && `http://localhost:3001/articles?id=${article.id}`,
+    updateVisible && `http://localhost:3001/articles?id=${articles.id}`,
     (url: string) => updateFetch(url, updateArticle)
   );
 
   useEffect(() => {
     setNewData(data);
     setUpdateVisible(false);
-  }, [data])
+    setEditor(false);
+  }, [data]);
 
   function closeEditor(e: React.KeyboardEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -101,17 +102,9 @@ function Account({ dataArticle }: accountProp) {
   }
 
   return (
-    <div className="account s-content">
-      <div className="account_sidebar">
-        <div className="account_sidebar_managment">
-          <h2>Managment</h2>
-          <ul>
-            <li>Articles</li>
-            <li>Categories</li>
-            <li>Tags</li>
-          </ul>
-        </div>
-      </div>
+    <div className={urlArticles ? "account s-content" : ""}>
+      {urlArticles && <AccountSidebar />}
+
       <div className="account_main">
         <div className="account_main_title">
           <h2>Articles</h2>
@@ -126,30 +119,63 @@ function Account({ dataArticle }: accountProp) {
           )}
         </div>
         <div className="account_main_element">
-          {Object.keys(article).length !== 0 && editor === true &&(
+          {Object.keys(article).length !== 0 && editor === false && (
             <form
               onKeyDown={(e) => e.code === "Enter" && closeEditor(e)}
               className="item-entry aos-init aos-animate"
               data-aos="zoom-in"
             >
-              <input type="text" ref={title} placeholder={`Title ${article.title !== null ? article.title : ""}`} />
-              <input type="text" ref={author} placeholder={`Author ${article.author !== null ? article.author : ""}`}/>
+              <input
+                type="text"
+                ref={title}
+                placeholder={`Title ${
+                  articles.title !== null ? articles.title : ""
+                }`}
+              />
+              <input
+                type="text"
+                ref={author}
+                placeholder={`Author ${
+                  articles.author !== null ? articles.author : ""
+                }`}
+              />
               <input
                 type="text"
                 ref={author_title}
-                placeholder={`Author title ${article.author_title !== null ? article.author_title : ""}`}
+                placeholder={`Author title ${
+                  articles.author_title !== null ? articles.author_title : ""
+                }`}
               />
               <input
                 type="text"
                 ref={author_image}
-                placeholder={`Author image ${article.author_image !== null ? article.author_image : ""}`}
+                placeholder={`Author image ${
+                  articles.author_image !== null ? articles.author_image : ""
+                }`}
               />
-              <input type="text" ref={category} placeholder={`Category ${article.category !== null ? article.category : ""}`}/>
-              <input type="text" ref={main_photo} placeholder={`Main photo ${article.main_photo !== null ? article.main_photo : ""}`}/>
-              <textarea ref={content} placeholder={`Content ${article.content !== null ? article.content : ""}`}/>
+              <input
+                type="text"
+                ref={category}
+                placeholder={`Category ${
+                  articles.category !== null ? articles.category : ""
+                }`}
+              />
+              <input
+                type="text"
+                ref={main_photo}
+                placeholder={`Main photo ${
+                  articles.main_photo !== null ? articles.main_photo : ""
+                }`}
+              />
+              <textarea
+                ref={content}
+                placeholder={`Content ${
+                  articles.content !== null ? articles.content : ""
+                }`}
+              />
             </form>
           )}
-          {addVisible === true ? (
+          {addVisible === true && (
             <form onKeyDown={(e) => e.code === "Enter" && setAddArticle(true)}>
               <input type="text" ref={title} placeholder="Post title" />
               <input type="text" ref={author} placeholder="Author" />
@@ -167,10 +193,8 @@ function Account({ dataArticle }: accountProp) {
               <input type="text" ref={main_photo} placeholder="Main photo" />
               <textarea ref={content} placeholder="Content" />
             </form>
-          ) : (
-            <></>
           )}
-          <ArticlesCard trigerValue={newData} />
+          <ArticlesCard trigerValue={newData} customArticles={dataArticles(0, 8).data} />
         </div>
       </div>
     </div>
@@ -179,8 +203,8 @@ function Account({ dataArticle }: accountProp) {
 
 function mapStateToProps(state: StateInterface) {
   return {
-    dataArticle: state.article,
+    article: state.article,
   };
 }
 
-export default connect(mapStateToProps)(Account);
+export default connect(mapStateToProps)(AccountArticle);

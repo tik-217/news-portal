@@ -18,6 +18,23 @@ export interface CategoriesElement {
   updatedAt: string;
 }
 
+export interface FilterArticlesNewLevel {
+  filterArticles: {
+    filterArticles: ArticlesElement[];
+  };
+}
+
+export interface FilterArticlesOneLevel {
+  filterArticles?: ArticlesElement[];
+}
+
+export interface ArticlesCardProps {
+  customArticles?:
+    | FilterArticlesOneLevel
+    | FilterArticlesNewLevel;
+  trigerValue?: object[] | undefined;
+}
+
 export interface ApiResponse {
   data?: Array<ArticlesElement>;
   error?: unknown;
@@ -25,16 +42,39 @@ export interface ApiResponse {
 
 export type GetElementDBArgs = number | string | string[] | undefined;
 
-interface DipatchType {
+export type EmptyObject = {
+  [K in any]: never;
+};
+
+export interface AccountArticleProps {
+  article: {
+    article: ArticlesElement;
+  };
+}
+
+export interface SearchProps {
+  searchList: FilterArticlesNewLevel | undefined;
+}
+
+export interface UpdateFetch {
+  [index: string]: string;
+}
+
+interface DispatchType {
   type: string;
 }
 
-export interface DispatchFilterArticles extends DipatchType {
-  filterArticles: ArticlesElement[];
+export interface DispatchCreatorsFilter extends DispatchType{
+  filterArticles?: ArticlesElement[];
 }
 
-export interface DispatchCreatorsAccount extends DipatchType {
-  article: ArticlesElement;
+export interface DispatchFilterArticles extends DispatchType {
+  filterArticles?: FilterArticlesNewLevel;
+  inputSearch?: string;
+}
+
+export interface DispatchCreatorsAccount extends DispatchType {
+  article: AccountArticleProps;
 }
 
 export interface StateInterface

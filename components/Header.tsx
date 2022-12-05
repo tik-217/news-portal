@@ -7,12 +7,19 @@ import Route, { useRouter } from "next/router";
 import useSWR from "swr";
 
 // flexsearch
-import { Index } from "flexsearch";
+import { Index, CreateOptions } from "flexsearch";
 
 // types
-import { ArticlesElement, DispatchFilterArticles } from "../types";
+import { ArticlesElement, DispatchCreatorsFilter } from "../types";
+
+// redux
 import { connect } from "react-redux";
+
+// redux creators
 import { SLCreators } from "../store/actionCreators/creatorsSearchList";
+import inputSearch from "../store/actionCreators/inputSearch";
+
+// next auth
 import { signOut, useSession } from "next-auth/react";
 
 const fetcher = async (url: string) =>
@@ -24,11 +31,9 @@ function Header({
   setFilteredArticles: (searchList: ArticlesElement[]) => void;
 }) {
   const [loadingPosts, setLoadingPosts] = useState<boolean>(false);
-  const [searchList, setSearchList] = useState<ArticlesElement[]>();
   const searchField = React.createRef<HTMLInputElement>();
 
   const { data: session, status } = useSession();
-
   const rout = useRouter();
 
   const { data, error } = useSWR(
@@ -54,8 +59,6 @@ function Header({
     });
 
     const searchList: ArticlesElement[] = flex.map((i: number) => data[i]);
-
-    setSearchList(searchList);
 
     setFilteredArticles(searchList);
 
@@ -219,10 +222,11 @@ function Header({
   );
 }
 
-function mapDispatchToProps(dispatch: Dispatch<DispatchFilterArticles>) {
+function mapDispatchToProps(dispatch: Dispatch<DispatchCreatorsFilter>) {
   return {
     setFilteredArticles: (value: ArticlesElement[]) =>
       dispatch(SLCreators(value)),
+    setInputSearch: (value: string) => dispatch(inputSearch(value)),
   };
 }
 

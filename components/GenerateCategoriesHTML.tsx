@@ -8,8 +8,8 @@ export default React.memo(function GenerateCategoriesHTML({
 }: {
   category1: CategoriesElement[];
   categoryString2: string | null;
-  }) {
-  if (categoryString2 === null) return (<></>);
+}) {
+  if (categoryString2 === null) return <></>;
   const categoriesNumberSplit = categoryString2.split("");
 
   return (
@@ -21,11 +21,11 @@ export default React.memo(function GenerateCategoriesHTML({
               return (
                 <Link key={element.id} href={`/categories/${element.name}`}>
                   {`${element.name} `}
-              </Link>
+                </Link>
               );
             }
           }
         })}
     </>
   );
-})
+});

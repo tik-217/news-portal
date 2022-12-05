@@ -1,2 +1,3 @@
 export const SEARCH_LIST = 'SEARCH_LIST';
 export const CHANGE_ARTICLE = 'CHANGE_ARTICLE';
+export const INPUT_SEARCH = 'INPUT_SEARCH';

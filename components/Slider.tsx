@@ -15,7 +15,7 @@ import { slickConf } from "./services/slick-config";
 import GenerateCategoriesHTML from "./GenerateCategoriesHTML";
 
 export default function Slider() {
-  const data = dataArticles().data;
+  const data = dataArticles(0, 5).data;
   const categories = dataCategories().data;
   const categoriesArr = getCategories();
 
@@ -42,9 +42,10 @@ export default function Slider() {
                         <div className="entry__background"></div>
                         <div className="entry__content">
                           <span className="entry__category">
-                            <Link href={`/categories/${el.category}`}>
-                              <GenerateCategoriesHTML category1={categoriesArr} categoryString2={el.category} />
-                            </Link>
+                              <GenerateCategoriesHTML
+                                category1={categoriesArr}
+                                categoryString2={el.category}
+                              />
                           </span>
 
                           <h1>
@@ -55,18 +56,18 @@ export default function Slider() {
 
                           <div className="entry__info">
                             <a href="#0" className="entry__profile-pic">
-                              <Image
-                                height={800}
-                                width={800}
-                                className="avatar"
-                                src={el.author_image}
-                                alt=""
-                              />
+                              {el.author_image && (
+                                <Image
+                                  height={800}
+                                  width={800}
+                                  className="avatar"
+                                  src={el.author_image}
+                                  alt=""
+                                />
+                              )}
                             </a>
                             <ul className="entry__meta">
-                              <li>
-                                  {el.author}
-                              </li>
+                              <li>{el.author}</li>
                               <li>{el.createdAt}</li>
                             </ul>
                           </div>

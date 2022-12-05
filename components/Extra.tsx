@@ -8,7 +8,7 @@ import { dataArticles, dataCategories } from "../components/services/apiDB";
 import { ArticlesElement, CategoriesElement } from "../types";
 
 export default function Extra() {
-  const articles: ArticlesElement[] = dataArticles().data;
+  const articles: ArticlesElement[] = dataArticles(0, 6).data;
   const categories = dataCategories().data;
 
   return (
@@ -23,12 +23,14 @@ export default function Extra() {
                 return (
                   <article key={el.id} className="col-block popular__post">
                     <a href={`/blog/${el.id}`} className="popular__thumb">
-                      <Image
-                        height={150}
-                        width={150}
-                        src={el.main_photo}
-                        alt=""
-                      />
+                      {el.main_photo && (
+                        <Image
+                          height={150}
+                          width={150}
+                          src={el.main_photo}
+                          alt=""
+                        />
+                      )}
                     </a>
                     <h5>{el.title}</h5>
                     <section className="popular__meta">

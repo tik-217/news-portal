@@ -18,6 +18,7 @@ export default function GetCategoryName(slug: NextRouter) {
   const filterArticles =
     articles &&
     articles.filter((el: ArticlesElement) => {
+      if (el.category === null) return;
       for (let iter of el.category.split("")) {
         if (+iter === categoryId) {
           return true;

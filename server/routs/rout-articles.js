@@ -21,7 +21,7 @@ router
   )
   .get(
     asyncHandler(async (req, res) => {
-      res.json(await readArt());
+      res.json(await readArt(req.query.offset, req.query.limit));
 
       res.end();
     })

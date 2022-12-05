@@ -101,13 +101,14 @@ export default function BlogPost({ artId }: { artId: GetElementDBArgs }) {
                   </div>
 
                   <div className="entry__author">
-                    <Image
-                      height={350}
-                      width={350}
-                      src={el.author_image}
-                      alt=""
-                    />
-
+                    {el.author_image && (
+                      <Image
+                        height={350}
+                        width={350}
+                        src={el.author_image}
+                        alt=""
+                      />
+                    )}
                     <div className="entry__author-about">
                       <h5 className="entry__author-name">
                         <span>Posted by</span>

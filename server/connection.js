@@ -16,7 +16,7 @@ import Sequelize from 'sequelize';
 //   }
 // )
 const sequelize = new Sequelize(
-  "template1",
+  process.env.DB_NAME,
   process.env.DB_USER,
   process.env.DB_PASSWORD,
   {

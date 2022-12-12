@@ -43,7 +43,7 @@ export default function Contacts() {
               incididunt adipisicing veniam velit id fugiat enim mollit amet
               anim veniam dolor dolor irure velit commodo cillum sit nulla
               ullamco. Lorem ipsum Nisi amet fugiat eiusmod et aliqua ad qui ut
-              nisi Ut aute anim mollit fugiat aute.
+              nisi Ut aute anim mollit fugiat aute
             </p>
 
             <div id="map-wrap">

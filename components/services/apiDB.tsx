@@ -28,3 +28,13 @@ export function dataCategories() {
     isError: error,
   };
 }
+
+export function dataTags() {
+  const { data, error } = useSWR(`http://localhost:3001/tags`, fetcher);
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}

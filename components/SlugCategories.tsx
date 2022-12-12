@@ -58,7 +58,6 @@ export default function SlugCategories() {
                     <div className="item-entry__cat">
                       {
                         <GenerateCategoriesHTML
-                          category1={categoriesArr}
                           categoryString2={el.category}
                         />
                       }

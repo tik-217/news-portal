@@ -13,7 +13,7 @@ import { dataArticles, dataCategories } from "../services/apiDB";
 
 // coomponents
 import GenerateCategoriesHTML from "../GenerateCategoriesHTML";
-import ControlsPosts from "../ControlsPosts";
+import ControlsPosts from "../Account/ControlsPosts";
 
 // reducers
 import articleChange from "../../store/actionCreators/accountChange";

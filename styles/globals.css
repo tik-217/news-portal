@@ -4290,24 +4290,23 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 
 /* contact form
  * ----------------------------------------------- */
- #cForm {
-   margin-top: 3.6rem;
-  }
-  
-  #cForm input,
-  #cForm textarea,
-  #cForm select {
-    margin-bottom: 0;
-  }
-  
-  #cForm input[type="submit"],
-  #cForm .btn {
-    margin-top: 6rem;
-  }
-  
-  /*# sourceMappingURL=main.css.map */
-  
-  
+#cForm {
+  margin-top: 3.6rem;
+}
+
+#cForm input,
+#cForm textarea,
+#cForm select {
+  margin-bottom: 0;
+}
+
+#cForm input[type="submit"],
+#cForm .btn {
+  margin-top: 6rem;
+}
+
+/*# sourceMappingURL=main.css.map */
+
 /* account
 * ----------------------------------------------- */
 
@@ -4340,7 +4339,7 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
   margin-left: -35px;
 }
 
-.account_sidebar a{
+.account_sidebar a {
   color: inherit;
 }
 
@@ -4350,6 +4349,11 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 }
 
 .account_main_title {
+  display: flex;
+  flex-direction: column;
+}
+
+.account_main_title div:first-child {
   display: flex;
 }
 
@@ -4362,8 +4366,8 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 }
 
 .account_main_title img {
-  margin-top: 6rem;
-  margin-bottom: 50px;
+  /* margin-top: 6rem; */
+  /* margin-bottom: 50px; */
   margin-left: 10px;
   cursor: pointer;
 }
@@ -4375,6 +4379,45 @@ footer [class*="s-footer__"] > .row [class*="col-"]:last-child {
 .account_main h2 {
   padding-left: 20px;
   margin-bottom: 50px;
+}
+
+.account_main .linklist {
+  list-style: none;
+}
+
+.account_main .linklist li {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 20px;
+  padding-right: 20px;
+  transition: 0.2s all ease-in-out;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.account_main .linklist li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.account_main .linklist li > input {
+  margin: 0;
+  border-bottom: 0;
+  height: 0;
+}
+
+.account_main .linklist li > input[placeholder] {
+  text-transform: capitalize;
+  color: black;
+}
+
+.account_main .linklist img{
+  display: none;
+}
+
+.account_main .linklist li:hover img{
+  display: block;
 }
 
 .account_main_element form {
@@ -4397,6 +4440,6 @@ textarea {
   resize: none;
 }
 
-.update_image img{
+.update_image img {
   cursor: pointer;
 }

@@ -17,18 +17,16 @@ export default React.memo(function ArticlesCard({
   trigerValue,
 }: ArticlesCardProps) {
   const { mutate } = useSWRConfig();
-  const [mutateAccount, setMutateAccount] = useState<boolean>(true);
+  const [ mutateAccount, setMutateAccount ] = useState<boolean>(true);
   const allArticles = dataArticles().data;
-  
+
   const articles = customArticles ? customArticles : allArticles;
   const categories = dataCategories().data;
   const categoriesArr = getCategories();
 
   useEffect(() => {
-    if (trigerValue && trigerValue.length) {
       mutate("http://localhost:3001/articles");
       setMutateAccount(!mutateAccount);
-    }
   }, [trigerValue]);
 
   function getCategories() {

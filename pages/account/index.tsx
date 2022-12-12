@@ -1,4 +1,4 @@
-import AccountSidebar from "../../components/accountSidebar";
+import AccountSidebar from "../../components/Account/AccountSidebar";
 import AccountArticle from "./articles";
 import Marking from "./marking";
 

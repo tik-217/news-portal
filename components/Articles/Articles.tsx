@@ -9,6 +9,7 @@ export default function Articles() {
   const offset = router.query.offset ? Number(router.query.offset) : 0;
   const limit = router.query.limit ? Number(router.query.limit) : 8;
 
+  
   const initialState = offset === 0 ? 1 : offset/limit+1;
   
   const [activePaginationNumber, setActivePaginationNumber] =
@@ -18,7 +19,8 @@ export default function Articles() {
     setActivePaginationNumber(initialState)
   }, [initialState]);
 
-  const {data} = dataArticles();
+  const { data } = dataArticles();
+  const customArticles = dataArticles(offset, limit).data;
   const articlesLength = data && data.length;
 
   let paginationLength = Math.floor(articlesLength / limit);
@@ -50,7 +52,7 @@ export default function Articles() {
 
   return (
     <section className="s-content s-content--top-padding">
-      <ArticlesCard customArticles={dataArticles(offset, limit).data} />
+      <ArticlesCard customArticles={customArticles} />
 
       <div className="row pagination-wrap">
         <div className="col-full">

@@ -1,3 +1,5 @@
+import React, { Dispatch, SetStateAction } from "react";
+
 export interface ArticlesElement {
   id?: number;
   title: string | null;
@@ -29,9 +31,7 @@ export interface FilterArticlesOneLevel {
 }
 
 export interface ArticlesCardProps {
-  customArticles?:
-    | FilterArticlesOneLevel
-    | FilterArticlesNewLevel;
+  customArticles?: FilterArticlesOneLevel | FilterArticlesNewLevel;
   trigerValue?: object[] | undefined;
 }
 
@@ -43,13 +43,12 @@ export interface ApiResponse {
 export type GetElementDBArgs = number | string | string[] | undefined;
 
 export type EmptyObject = {
-  [K in any]: never;
+  [K in any] : never
 };
 
 export interface AccountArticleProps {
-  article: {
-    article: ArticlesElement;
-  };
+  article: ArticlesElement;
+  changeMouseEvent: boolean;
 }
 
 export interface SearchProps {
@@ -64,7 +63,7 @@ interface DispatchType {
   type: string;
 }
 
-export interface DispatchCreatorsFilter extends DispatchType{
+export interface DispatchCreatorsFilter extends DispatchType {
   filterArticles?: ArticlesElement[];
 }
 

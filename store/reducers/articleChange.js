@@ -7,6 +7,7 @@ function articleChange(state = articleChangeInitial, action) {
       return {
         ...state,
         article: action.article,
+        changeMouseEvent: action.changeMouseEvent,
       };
     default:
       return {

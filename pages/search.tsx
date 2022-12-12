@@ -34,9 +34,6 @@ function Search({ searchList }: SearchProps) {
   const newSearchList = unActiveArticles
     ? searchList
     : searchList && searchList.filterArticles;
-  
-  console.log(typeof newSearchList);
-  
 
   return (
     <section className="s-content s-content--top-padding">

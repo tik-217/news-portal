@@ -7,7 +7,7 @@ export default function SignIn() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  if (status === "authenticated") router.push("/");
+  if (status === "authenticated") router.push("/", undefined, { shallow: true });
 
   async function login(e: React.MouseEvent<HTMLInputElement>) {
     e.preventDefault();

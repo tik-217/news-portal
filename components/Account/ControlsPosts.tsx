@@ -1,15 +1,25 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { Dispatch, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { connect } from "react-redux";
 import useSWR from "swr";
-import accountChange from "../store/actionCreators/accountChange";
-import { ArticlesElement, DispatchCreatorsAccount } from "../types";
+import accountChange from "../../store/actionCreators/accountChange";
+import { ArticlesElement, DispatchCreatorsAccount } from "../../types";
 
 const deleteFetch = (url: string) => axios.delete(url).then((res) => res.data);
 
-function ControlsPosts({ el, changeArticle }: { el: ArticlesElement, changeArticle: (el: ArticlesElement) => void }) {
+function ControlsPosts({
+  el,
+  changeArticle,
+}: {
+  el: ArticlesElement;
+  changeArticle: (
+    el: ArticlesElement,
+    changeMouseEvent: boolean,
+  ) => void;
+}) {
   const [deleteReq, setDeleteReq] = useState<number>();
+  const [changeMouseEvent, setChangeMouseEvent] = useState<boolean>(true);
   const rout = useRouter();
 
   useSWR(
@@ -18,14 +28,20 @@ function ControlsPosts({ el, changeArticle }: { el: ArticlesElement, changeArtic
     deleteFetch
   );
 
+  function changeArticleHandler() {
+    setChangeMouseEvent(!changeMouseEvent);
+    changeArticle(el, changeMouseEvent);
+  }
+
   return (
     <>
-      {rout.pathname === "/account" && (
+      {(rout.pathname === "/account/articles" ||
+        rout.pathname === "/account") && (
         <div className="update_image">
           <img
             src="/icons8-edit.svg"
             alt=""
-            onClick={() => el && changeArticle(el)}
+            onClick={() => changeArticleHandler()}
           />
           <img
             src="/icons8-trash.svg"
@@ -40,8 +56,11 @@ function ControlsPosts({ el, changeArticle }: { el: ArticlesElement, changeArtic
 
 function mapDispatchToProps(dispatch: Dispatch<DispatchCreatorsAccount>) {
   return {
-    changeArticle: (value: ArticlesElement) => {
-      dispatch(accountChange(value));
+    changeArticle: (
+      value: ArticlesElement,
+      changeMouseEvent: boolean,
+    ) => {
+      dispatch(accountChange(value, changeMouseEvent));
     },
   };
 }
